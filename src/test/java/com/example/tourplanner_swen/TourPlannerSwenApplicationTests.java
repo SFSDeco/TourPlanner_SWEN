@@ -1,6 +1,6 @@
 package com.example.tourplanner_swen;
 
-import com.example.tourplanner_swen.api.TourApi;
+
 import com.example.tourplanner_swen.persistence.entities.TourEntity;
 import com.example.tourplanner_swen.persistence.entities.TourLogEntity;
 import com.example.tourplanner_swen.persistence.repositories.TourLogRepository;
@@ -8,16 +8,12 @@ import com.example.tourplanner_swen.persistence.repositories.TourRepository;
 import com.example.tourplanner_swen.service.TourService;
 import com.example.tourplanner_swen.service.dtos.TourDto;
 import com.example.tourplanner_swen.service.dtos.TourLogDto;
-import com.example.tourplanner_swen.service.impl.TourServiceImpl;
 import com.example.tourplanner_swen.service.mapper.TourLogMapper;
 import com.example.tourplanner_swen.service.mapper.TourMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
