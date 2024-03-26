@@ -9,4 +9,4 @@ public interface TourRepository extends JpaRepository <TourEntity, Long> {
     List<TourEntity> findByNameIgnoreCase(String name);
 }
 
-// Weiter so Herr Prof. Decoration
+// Weiter so Herr Prof. Dec.
