@@ -8,4 +8,5 @@ public interface TourService {
     void saveNewTour(TourDto tourDto);
 
     List<TourDto> getAllTours();
+    List<TourDto> getTourByName(String name);
 }

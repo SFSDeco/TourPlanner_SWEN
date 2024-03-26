@@ -29,4 +29,9 @@ public class TourServiceImpl implements TourService {
     @Override
     public List<TourDto> getAllTours() {return tourMapper.mapToDto(tourRepository.findAll());}
 
+    @Override
+    public List<TourDto> getTourByName(String name){
+        return tourMapper.mapToDto(tourRepository.findByNameIgnoreCase(name));
+    }
+
 }
