@@ -17,6 +17,9 @@ public class TourApi {
     @GetMapping
     public List<TourDto> getAllTours() { return tourService.getAllTours(); }
 
+    @GetMapping("/name/{name}")
+    public List<TourDto> getTourByName(@PathVariable String name) { return tourService.getTourByName(name); }
+
     @PostMapping
     public void insertNewTour(@RequestBody TourDto tour) { tourService.saveNewTour(tour); }
 }

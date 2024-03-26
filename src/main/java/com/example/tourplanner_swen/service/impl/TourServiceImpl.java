@@ -6,9 +6,11 @@ import com.example.tourplanner_swen.service.TourService;
 import com.example.tourplanner_swen.service.dtos.TourDto;
 import com.example.tourplanner_swen.service.mapper.TourMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class TourServiceImpl implements TourService {
 
     @Autowired
