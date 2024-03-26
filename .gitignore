@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/Postman_TourPlanner_Intermediate.postman_collection.json
