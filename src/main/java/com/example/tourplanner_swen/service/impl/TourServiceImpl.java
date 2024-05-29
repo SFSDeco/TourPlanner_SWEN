@@ -5,12 +5,14 @@ import com.example.tourplanner_swen.persistence.repositories.TourRepository;
 import com.example.tourplanner_swen.service.TourService;
 import com.example.tourplanner_swen.service.dtos.TourDto;
 import com.example.tourplanner_swen.service.mapper.TourMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Slf4j
 public class TourServiceImpl implements TourService {
 
     @Autowired

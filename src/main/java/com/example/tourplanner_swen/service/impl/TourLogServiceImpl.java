@@ -7,12 +7,14 @@ import com.example.tourplanner_swen.persistence.repositories.TourRepository;
 import com.example.tourplanner_swen.service.TourLogService;
 import com.example.tourplanner_swen.service.dtos.TourLogDto;
 import com.example.tourplanner_swen.service.mapper.TourLogMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Slf4j
 public class TourLogServiceImpl implements TourLogService {
     @Autowired
     private TourLogRepository tourLogRepository;
