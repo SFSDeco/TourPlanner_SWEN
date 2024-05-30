@@ -9,17 +9,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path ="tour")
+@RequestMapping(path = "tour")
 public class TourApi {
     @Autowired
     private TourService tourService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     public List<TourDto> getAllTours() { return tourService.getAllTours(); }
 
     @GetMapping("/name/{name}")
     public List<TourDto> getTourByName(@PathVariable String name) { return tourService.getTourByName(name); }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
     public void insertNewTour(@RequestBody TourDto tour) { tourService.saveNewTour(tour); }
 }

@@ -1,6 +1,7 @@
 package com.FHTW.tourplanner_swen;
 
 
+import com.FHTW.tourplanner_swen.api.MapApi;
 import com.FHTW.tourplanner_swen.persistence.entities.TourEntity;
 import com.FHTW.tourplanner_swen.persistence.entities.TourLogEntity;
 import com.FHTW.tourplanner_swen.persistence.repositories.TourLogRepository;
@@ -14,6 +15,9 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,6 +35,8 @@ class TourPlannerSwenApplicationTests {
     private TourLogMapper tourLogMapper;
     @Autowired
     private TourService tourService;
+    @Autowired
+    private MapApi mapApi;
 
 
     @Test
@@ -131,4 +137,69 @@ class TourPlannerSwenApplicationTests {
         assertEquals(tourService.getTourByName("Tour A").get(0).getName(), tourMapper.mapToDto(tour).getName());
 
     }
+
+    @Test
+    public void test_searchAddress(){
+        String coordinates = mapApi.searchAddress("Austria, 1200 Wien, Höchstädtplatz");
+        assertEquals(coordinates, "16.377966,48.240169");
+    }
+
+    @Test
+    public void test_searchDirection(){
+        String coordinates1 = mapApi.searchAddress("Austria, 1200 Wien, Höchstädtplatz");
+        String coordinates2 = mapApi.searchAddress("Austria, 1020 Wien, Praterstern");
+        System.out.println(coordinates1);
+        // start: 16.381029,48.235378
+        // end: 16.392599,48.22038
+        List<double[]> routes = mapApi.searchDirection(coordinates1, coordinates2);
+
+        AtomicInteger i = new AtomicInteger();
+        StringBuffer sb = new StringBuffer();
+        routes.forEach(r -> {
+            if (i.get() > 0) {
+                sb.append(";");
+            }
+            if (i.getAndIncrement() % 5 == 0) {
+                sb.append("\n");
+            }
+            sb.append(String.format("[%f; %f]", r[0], r[1]));
+        });
+        System.out.println();
+        String routesAsString = sb.toString();
+        routesAsString = routesAsString.replace(",",".").replace(";",",");
+        System.out.println(routesAsString);
+        System.out.println();
+        System.out.printf("start: %s\n", coordinates1);
+        System.out.printf("end: %s\n", coordinates2);
+    }
+
+    @Test
+    public void test_getMap(){
+        String coordinates1 = mapApi.searchAddress("Austria, 1200 Wien, Höchstädtplatz");
+        String coordinates2 = mapApi.searchAddress("Austria, 1180 Wien, Anastasius-Grün Gasse");
+
+        mapApi.getMap(coordinates1, coordinates2);
+    }
+
+    @Test
+    public void test_copyImageIntoPermanentFolder(){
+        TourDto tourDto = TourDto.builder()
+                .id(999L)
+                .name("testImage")
+                .build();
+
+        tourService.copyImageIntoPermanentFolder(tourDto);
+    }
+
+    @Test
+    public void test_createTourMapImage(){
+        TourDto tourDto = TourDto.builder()
+                .id(1000L)
+                .name("MundoGoesWhereHePleases")
+                .build();
+
+        tourService.createTourMapImage(tourDto);
+    }
 }
+
+

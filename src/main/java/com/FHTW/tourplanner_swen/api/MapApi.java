@@ -6,6 +6,6 @@ public interface MapApi {
 
     String searchAddress(String text);
     List<double[]> searchDirection(String start, String end);
-    void getMap();
+    void getMap(String startCoordinate, String endCoordinate);
 
 }

@@ -9,4 +9,8 @@ public interface TourService {
 
     List<TourDto> getAllTours();
     List<TourDto> getTourByName(String name);
+
+    void createTourMapImage(TourDto tourDto);
+
+    void copyImageIntoPermanentFolder(TourDto tourDto);
 }
