@@ -17,4 +17,13 @@ public class TourEntity {
     private Long id;
 
     private String name;
+
+    @Column(name = "fromaddress")
+    private String fromAddress;
+
+    @Column(name = "toaddress")
+    private String toAddress;
+
+    @Column(name = "transport_type")
+    private String transportation_type;
 }

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -33,8 +34,17 @@ public class TourServiceImpl implements TourService {
         TourEntity entity = TourEntity.builder()
                 .id(tourDto.getId())
                 .name(tourDto.getName())
+                .fromAddress(tourDto.getFromAddress())
+                .toAddress(tourDto.getToAddress())
+                .transportation_type(tourDto.getTransportation_type())
                 .build();
-        tourRepository.save(entity);
+        TourDto createTourDto = tourMapper.mapToDto(tourRepository.save(entity));
+
+        log.info("Tour created with id: " + createTourDto.getId() + ". Now creating TourMap image.");
+
+        createTourMapImage(createTourDto);
+
+        log.info("TourMap image created, tour creation process finished.");
     }
 
     @Override
@@ -46,17 +56,51 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
+    public void updateTour(TourDto tourDto){
+        Optional<TourEntity> optionalTourEntity = tourRepository.findById(tourDto.getId());
+        if(optionalTourEntity.isPresent()){
+            TourEntity currentTour = optionalTourEntity.get();
+            currentTour.setName(tourDto.getName());
+            currentTour.setFromAddress(tourDto.getFromAddress());
+            currentTour.setToAddress(tourDto.getToAddress());
+            currentTour.setTransportation_type(tourDto.getTransportation_type());
+
+            tourRepository.save(currentTour);
+
+            log.info("Tour Entity updated, updating map...");
+
+            createTourMapImage(tourDto);
+
+            log.info("Tour Map created...");
+        } else {
+            log.error("Tour Id not found: " + tourDto.getId());
+        }
+
+    }
+
+    @Override
+    public void deleteTour(Long id){
+        if(tourRepository.existsById(id)) {
+            tourRepository.deleteById(id);
+            log.info("Tour successfully deleted");
+        } else {
+            log.error("Tour with id not found: " + id);
+        }
+    }
+
+    @Override
     public void createTourMapImage(TourDto tourDto){
 
-        String placeholderAdd1 = "Austria, 1200 Wien, Höchstädtplatz";
-        String placeholderAdd2 = "Austria, 1180 Wien, Gersthoferstraße";
-
-        String startCoordinates = mapApi.searchAddress(placeholderAdd1);
-        String endCoordinates = mapApi.searchAddress(placeholderAdd2);
+        String startCoordinates = mapApi.searchAddress(tourDto.getFromAddress());
+        String endCoordinates = mapApi.searchAddress(tourDto.getToAddress());
 
         mapApi.getMap(startCoordinates, endCoordinates);
 
+        log.debug("Map Creation done...");
+
         copyImageIntoPermanentFolder(tourDto);
+
+        log.debug("Map imaged moved into permanent folder.");
     }
 
     @Override

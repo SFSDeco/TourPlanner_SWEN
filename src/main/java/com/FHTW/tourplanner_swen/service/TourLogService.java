@@ -7,4 +7,8 @@ import java.util.List;
 public interface TourLogService {
     void addNewTourLog(TourLogDto tourLogDto, Long tourId);
     List<TourLogDto> getAllLogs();
+
+    void updateTourLog(Long tourId, TourLogDto tourLogDto);
+
+    void deleteTourLog(Long logId);
 }

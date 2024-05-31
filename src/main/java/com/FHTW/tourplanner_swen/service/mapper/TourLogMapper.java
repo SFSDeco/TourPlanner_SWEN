@@ -18,6 +18,9 @@ public class TourLogMapper extends AbstractMapper<TourLogEntity, TourLogDto> {
                 .id(source.getId())
                 .comment(source.getComment())
                 .tour(tourMapper.mapToDto(source.getTour()))
+                .log_date(source.getLog_date())
+                .difficulty(source.getDifficulty())
+                .rating(source.getRating())
                 .build();
     }
 }

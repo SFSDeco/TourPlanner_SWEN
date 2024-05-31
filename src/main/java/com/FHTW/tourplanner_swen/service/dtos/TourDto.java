@@ -12,4 +12,7 @@ import lombok.NoArgsConstructor;
 public class TourDto {
     private Long id;
     private String name;
+    private String fromAddress;
+    private String toAddress;
+    private String transportation_type;
 }

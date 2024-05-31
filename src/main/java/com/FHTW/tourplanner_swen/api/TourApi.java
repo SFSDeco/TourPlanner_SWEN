@@ -24,4 +24,13 @@ public class TourApi {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
     public void insertNewTour(@RequestBody TourDto tour) { tourService.saveNewTour(tour); }
+
+    @PutMapping("/{id}")
+    public void updateTour(@PathVariable Long id, @RequestBody TourDto tour){
+        tour.setId(id);
+        tourService.updateTour(tour);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTour(@PathVariable Long id){ tourService.deleteTour(id); }
 }

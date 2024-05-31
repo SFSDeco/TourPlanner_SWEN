@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -13,4 +15,7 @@ public class TourLogDto {
     private Long id;
     private String comment;
     private TourDto tour;
+    private String difficulty;
+    private int rating;
+    private LocalDate log_date;
 }

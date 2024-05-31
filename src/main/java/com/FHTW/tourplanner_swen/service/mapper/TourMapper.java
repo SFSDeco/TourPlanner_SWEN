@@ -12,6 +12,9 @@ public class TourMapper extends AbstractMapper<TourEntity, TourDto>{
         return TourDto.builder()
                 .id(source.getId())
                 .name(source.getName())
+                .fromAddress(source.getFromAddress())
+                .toAddress(source.getToAddress())
+                .transportation_type(source.getTransportation_type())
                 .build();
     }
 }

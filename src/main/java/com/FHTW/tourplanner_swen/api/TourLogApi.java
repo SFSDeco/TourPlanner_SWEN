@@ -21,4 +21,13 @@ public class TourLogApi {
     public void insertNewTourLog(@RequestBody TourLogRequest request) {
         tourLogService.addNewTourLog(request.getTourLog(), request.getTourId());
     }
+
+    @PutMapping("/{tourId}/{logId}")
+    public void updateTourLog(@PathVariable Long tourId, @PathVariable Long logId, @RequestBody TourLogDto tourLogDto){
+        tourLogDto.setId(logId);
+        tourLogService.updateTourLog(tourId, tourLogDto);
+    }
+
+    @DeleteMapping("/{logId}")
+    public void deleteTourLog(@PathVariable Long logId){ tourLogService.deleteTourLog(logId);}
 }

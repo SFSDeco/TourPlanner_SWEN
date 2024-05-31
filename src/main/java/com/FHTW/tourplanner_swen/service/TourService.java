@@ -13,4 +13,8 @@ public interface TourService {
     void createTourMapImage(TourDto tourDto);
 
     void copyImageIntoPermanentFolder(TourDto tourDto);
+
+    void updateTour(TourDto tourDto);
+
+    void deleteTour(Long id);
 }

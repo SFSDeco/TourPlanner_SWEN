@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name ="TOUR_LOG")
 @Data
@@ -23,5 +25,9 @@ public class TourLogEntity {
     @ManyToOne
     @JoinColumn(name = "tourid", referencedColumnName = "id")
     private TourEntity tour;
+
+    private String difficulty;
+    private int rating;
+    private LocalDate log_date;
 
 }
