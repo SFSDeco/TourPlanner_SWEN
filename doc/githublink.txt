@@ -1,1 +1,2 @@
-https://github.com/SFSDeco/TourPlanner_SWEN
+https://github.com/SFSDeco/TourPlanner_SWEN (backend)
+https://github.com/SFSDeco/tourClient (frontend)

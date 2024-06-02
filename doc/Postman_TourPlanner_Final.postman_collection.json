@@ -1,0 +1,199 @@
+{
+	"info": {
+		"_postman_id": "467f07e4-e44e-4b06-aa23-875a7c778f69",
+		"name": "Postman_TourPlanner_Intermediate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33297197"
+	},
+	"item": [
+		{
+			"name": "Tour_Post_David",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"David\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/tour"
+			},
+			"response": []
+		},
+		{
+			"name": "Tour_GetAll",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/tour"
+			},
+			"response": []
+		},
+		{
+			"name": "Tour_Get_ByNameDavid",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/tour/name/dAvId"
+			},
+			"response": []
+		},
+		{
+			"name": "TourLog_Post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tourLog\": {\r\n        \"comment\": \"das alrite\"\r\n    },\r\n    \"tourId\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/tour_log"
+			},
+			"response": []
+		},
+		{
+			"name": "TourLog_GetAll",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/tour_log"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Tour entry",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Wienwandern\",\r\n    \"fromAddress\": \"Sieveringer Straße Wien 1190, Austria\",\r\n    \"toAddress\": \"Geroldgasse Wien 1170 Austria\",\r\n    \"transportation_type\": \"foot-walking\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/tour/16"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Tour Entry",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8080/tour/16"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Tour Log",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"comment\":\"oof ouch owie\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/tour_log/10/15"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Tour Log",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8080/tour_log/16"
+			},
+			"response": []
+		},
+		{
+			"name": "Tour_GetByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/tour/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Tour_GetTourMap",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/tour/map/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Tour_GetTourReport",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/tour/report/1"
+			},
+			"response": []
+		},
+		{
+			"name": "TourLog_GetByTourId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/tour_log/1"
+			},
+			"response": []
+		}
+	]
+}
