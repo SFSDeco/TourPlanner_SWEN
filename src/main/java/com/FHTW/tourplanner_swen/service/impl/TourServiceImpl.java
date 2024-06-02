@@ -1,6 +1,10 @@
 package com.FHTW.tourplanner_swen.service.impl;
 
 import com.FHTW.tourplanner_swen.api.MapApi;
+import com.FHTW.tourplanner_swen.persistence.repositories.TourLogRepository;
+import com.FHTW.tourplanner_swen.service.PDFGenerator;
+import com.FHTW.tourplanner_swen.service.dtos.TourLogDto;
+import com.FHTW.tourplanner_swen.service.mapper.TourLogMapper;
 import com.FHTW.tourplanner_swen.service.mapper.TourMapper;
 import com.FHTW.tourplanner_swen.persistence.entities.TourEntity;
 import com.FHTW.tourplanner_swen.persistence.repositories.TourRepository;
@@ -8,12 +12,15 @@ import com.FHTW.tourplanner_swen.service.TourService;
 import com.FHTW.tourplanner_swen.service.dtos.TourDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -26,12 +33,16 @@ public class TourServiceImpl implements TourService {
 
     @Autowired
     private TourRepository tourRepository;
-
+    @Autowired
+    private TourLogRepository tourLogRepository;
     @Autowired
     private TourMapper tourMapper;
-
+    @Autowired
+    private TourLogMapper tourLogMapper;
     @Autowired
     private MapApi mapApi;
+    @Autowired
+    private PDFGenerator pdfGenerator;
 
     @Override
     public void saveNewTour(TourDto tourDto){
@@ -88,6 +99,37 @@ public class TourServiceImpl implements TourService {
         } else {
             log.error("Tour with ID " + tourId + " not found!");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity<Resource> getReportPDFbyId(Long tourId){
+        try{
+            Optional<TourEntity> optionalTourEntity = tourRepository.findById(tourId);
+            if(optionalTourEntity.isPresent()) {
+
+                TourDto tourDto = tourMapper.mapToDto(optionalTourEntity.get());
+                List<TourLogDto> tourLogDtos = tourLogMapper.mapToDto(tourLogRepository.findByTour(optionalTourEntity.get()));
+
+                pdfGenerator.generatePdfFromTourDto(tourDto, tourLogDtos);
+                File pdfFile = new File("./tour_report.pdf");
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                headers.setContentDispositionFormData("filename", "tour_report.pdf");
+
+                return ResponseEntity.ok()
+                        .headers(headers)
+                        .contentLength(pdfFile.length())
+                        .body(new FileSystemResource(pdfFile));
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+
+        } catch (IOException e){
+            log.error("Error during PDF generation: " + e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

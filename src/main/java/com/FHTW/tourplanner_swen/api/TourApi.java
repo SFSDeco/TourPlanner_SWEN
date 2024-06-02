@@ -4,6 +4,7 @@ package com.FHTW.tourplanner_swen.api;
 import com.FHTW.tourplanner_swen.service.TourService;
 import com.FHTW.tourplanner_swen.service.dtos.TourDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,4 +48,8 @@ public class TourApi {
     @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/{id}")
     public void deleteTour(@PathVariable Long id){ tourService.deleteTour(id); }
+
+    @CrossOrigin(origins ="http://localhost:4200")
+    @GetMapping("/report/{id}")
+    public ResponseEntity<Resource> generatePDFforTour(@PathVariable Long id){ return tourService.getReportPDFbyId(id); }
 }

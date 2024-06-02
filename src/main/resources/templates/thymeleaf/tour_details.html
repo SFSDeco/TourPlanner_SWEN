@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Tour Details</title>
+</head>
+<body>
+<h1 th:text="${tour.name}">Tour Name</h1>
+<table border="1">
+    <tr>
+        <th>Attribute</th>
+        <th>Value</th>
+    </tr>
+    <tr>
+        <td>From Address</td>
+        <td th:text="${tour.fromAddress}"></td>
+    </tr>
+    <tr>
+        <td>To Address</td>
+        <td th:text="${tour.toAddress}"></td>
+    </tr>
+    <tr>
+        <td>Transportation Type</td>
+        <td th:text="${tour.transportation_type}"></td>
+    </tr>
+</table>
+
+<!-- Image inserted underneath the table -->
+<img th:src="'./img/maps/' + ${tour.name + '_' + tour.id + '.png'}" alt="Tour Image"/>
+
+<h2>Tour Logs</h2>
+<table border="1">
+    <tr>
+        <th>Comment</th>
+        <th>Difficulty</th>
+        <th>Rating</th>
+        <th>Log Date</th>
+    </tr>
+    <tr th:each="log : ${tourLogs}">
+        <td th:text="${log.comment}"></td>
+        <td th:text="${log.difficulty}"></td>
+        <td th:text="${log.rating}"></td>
+        <td th:text="${log.log_date}"></td>
+    </tr>
+</table>
+</body>
+</html>

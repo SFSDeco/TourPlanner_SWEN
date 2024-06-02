@@ -8,6 +8,7 @@ import com.FHTW.tourplanner_swen.persistence.entities.TourEntity;
 import com.FHTW.tourplanner_swen.persistence.entities.TourLogEntity;
 import com.FHTW.tourplanner_swen.persistence.repositories.TourLogRepository;
 import com.FHTW.tourplanner_swen.persistence.repositories.TourRepository;
+import com.FHTW.tourplanner_swen.service.PDFGenerator;
 import com.FHTW.tourplanner_swen.service.PixelCalculator;
 import com.FHTW.tourplanner_swen.service.TourService;
 import com.FHTW.tourplanner_swen.service.dtos.TourDto;
@@ -431,6 +432,34 @@ class TourPlannerSwenApplicationTests {
 
         } else {
             Assertions.fail("Could not find Test entity id(1)");
+        }
+    }
+
+    //TEST REPORT GENERATION
+    @Test
+    public void test_GeneratePdfFromTourDto(){
+        TourDto tourDto = TourDto.builder()
+                .id(1L)
+                .name("Test")
+                .fromAddress("Höchstädtplatz, 1200 Wien, Austria")
+                .toAddress("Ziegelhofstraße, Wien 1220, Austria")
+                .transportation_type("foot-walking")
+                .build();
+
+        Optional<TourEntity> optionalTourEntity = tourRepository.findById(tourDto.getId());
+
+        if(optionalTourEntity.isPresent()) {
+
+            PDFGenerator pdfGenerator = new PDFGenerator();
+            List<TourLogDto> tourLogDtos = tourLogMapper.mapToDto(tourLogRepository.findByTour(optionalTourEntity.get()));
+
+            try {
+                pdfGenerator.generatePdfFromTourDto(tourDto, tourLogDtos);
+            } catch (Exception e) {
+                Assertions.fail("Exception occurred while generating PDF: " + e.getMessage());
+            }
+        } else {
+            Assertions.fail("Test Entity does not exist");
         }
     }
 

@@ -1,6 +1,7 @@
 package com.FHTW.tourplanner_swen.service;
 
 import com.FHTW.tourplanner_swen.service.dtos.TourDto;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -14,6 +15,8 @@ public interface TourService {
     ResponseEntity<TourDto> getTourById(Long tourId);
 
     ResponseEntity<byte[]> getMapById(Long tourId);
+
+    ResponseEntity<Resource> getReportPDFbyId(Long tourId);
 
     void createTourMapImage(TourDto tourDto);
 
