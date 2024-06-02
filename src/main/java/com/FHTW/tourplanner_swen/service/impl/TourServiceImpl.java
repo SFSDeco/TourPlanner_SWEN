@@ -63,10 +63,14 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public List<TourDto> getAllTours() {return tourMapper.mapToDto(tourRepository.findAll());}
+    public List<TourDto> getAllTours() {
+        log.info("Creating response with all Tours...");
+        return tourMapper.mapToDto(tourRepository.findAll());
+    }
 
     @Override
     public List<TourDto> getTourByName(String name){
+        log.info("Creating list of all Tours with the name " + name);
         return tourMapper.mapToDto(tourRepository.findByNameIgnoreCase(name));
     }
 
@@ -75,8 +79,10 @@ public class TourServiceImpl implements TourService {
         Optional<TourEntity> tourEntityOptional = tourRepository.findById(tourId);
         if(tourEntityOptional.isPresent()){
             TourDto tourDto = tourMapper.mapToDto(tourEntityOptional.get());
+            log.info("Found Tour with id: " + tourId);
             return ResponseEntity.ok(tourDto);
         } else {
+            log.error("Could not find Tour with id: " + tourId);
             return ResponseEntity.notFound().build();
         }
     }
@@ -91,9 +97,12 @@ public class TourServiceImpl implements TourService {
                 mapImageData = Files.readAllBytes(imagePath);
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.IMAGE_PNG);
+
+                log.info("Successfully found Map corresponding to tourId: " + tourId);
                 return new ResponseEntity<>(mapImageData, headers, HttpStatus.OK);
             } catch(IOException e) {
-                System.err.println("Error during image to Bye: " + e);
+
+                log.error("Error during image to Byte: " + e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
@@ -117,11 +126,15 @@ public class TourServiceImpl implements TourService {
                 headers.setContentType(MediaType.APPLICATION_PDF);
                 headers.setContentDispositionFormData("filename", "tour_report.pdf");
 
+                log.info("Successfully generated pdf file, sending to Client...");
+
                 return ResponseEntity.ok()
                         .headers(headers)
                         .contentLength(pdfFile.length())
                         .body(new FileSystemResource(pdfFile));
             } else {
+
+                log.error("Tour with tourId: " + tourId + " could not be found.");
                 return ResponseEntity.notFound().build();
             }
 

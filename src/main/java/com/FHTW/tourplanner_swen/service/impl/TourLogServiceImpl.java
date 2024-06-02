@@ -47,6 +47,7 @@ public class TourLogServiceImpl implements TourLogService {
     public List<TourLogDto> getTourLogs(Long tourId) {
         Optional<TourEntity> tour = tourRepository.findById(tourId);
         if(tour.isPresent()) {
+            log.info("TourLogs for Tour with tourId: '" + tourId + "' found, creating Response with all TourLogs");
             return tourLogMapper.mapToDto(tourLogRepository.findByTour(tour.get()));
         } else {
             log.error("Tour Id not found: " + tourId);
@@ -56,6 +57,7 @@ public class TourLogServiceImpl implements TourLogService {
 
     @Override
     public List<TourLogDto> getAllLogs() {
+        log.info("Creating response with all TourLogs");
         return tourLogMapper.mapToDto(tourLogRepository.findAll());
     }
 
@@ -86,9 +88,9 @@ public class TourLogServiceImpl implements TourLogService {
     public void deleteTourLog(Long logId){
         if(tourLogRepository.existsById(logId)) {
             tourLogRepository.deleteById(logId);
-            log.info("Tour successfully deleted");
+            log.info("Tour Log successfully deleted");
         } else {
-            log.error("Tour with id not found: " + logId);
+            log.error("Tour Log with id not found: " + logId);
         }
     }
 }
