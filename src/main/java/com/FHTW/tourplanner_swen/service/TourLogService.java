@@ -8,6 +8,8 @@ public interface TourLogService {
     void addNewTourLog(TourLogDto tourLogDto, Long tourId);
     List<TourLogDto> getAllLogs();
 
+    List<TourLogDto> getTourLogs(Long tourId);
+
     void updateTourLog(Long tourId, TourLogDto tourLogDto);
 
     void deleteTourLog(Long logId);

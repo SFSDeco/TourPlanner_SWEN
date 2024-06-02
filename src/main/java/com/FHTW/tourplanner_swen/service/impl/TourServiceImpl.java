@@ -8,6 +8,10 @@ import com.FHTW.tourplanner_swen.service.TourService;
 import com.FHTW.tourplanner_swen.service.dtos.TourDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -53,6 +57,38 @@ public class TourServiceImpl implements TourService {
     @Override
     public List<TourDto> getTourByName(String name){
         return tourMapper.mapToDto(tourRepository.findByNameIgnoreCase(name));
+    }
+
+    @Override
+    public ResponseEntity<TourDto> getTourById(Long tourId){
+        Optional<TourEntity> tourEntityOptional = tourRepository.findById(tourId);
+        if(tourEntityOptional.isPresent()){
+            TourDto tourDto = tourMapper.mapToDto(tourEntityOptional.get());
+            return ResponseEntity.ok(tourDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<byte[]> getMapById(Long tourId){
+        Optional<TourEntity> tourEntityOptional = tourRepository.findById(tourId);
+        if(tourEntityOptional.isPresent()) {
+            byte[] mapImageData;
+            Path imagePath = Paths.get("./img/maps/"+tourEntityOptional.get().getName() + "_" + tourId + ".png");
+            try{
+                mapImageData = Files.readAllBytes(imagePath);
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.IMAGE_PNG);
+                return new ResponseEntity<>(mapImageData, headers, HttpStatus.OK);
+            } catch(IOException e) {
+                System.err.println("Error during image to Bye: " + e);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            log.error("Tour with ID " + tourId + " not found!");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override

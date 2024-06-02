@@ -44,6 +44,17 @@ public class TourLogServiceImpl implements TourLogService {
     }
 
     @Override
+    public List<TourLogDto> getTourLogs(Long tourId) {
+        Optional<TourEntity> tour = tourRepository.findById(tourId);
+        if(tour.isPresent()) {
+            return tourLogMapper.mapToDto(tourLogRepository.findByTour(tour.get()));
+        } else {
+            log.error("Tour Id not found: " + tourId);
+            return null;
+        }
+    }
+
+    @Override
     public List<TourLogDto> getAllLogs() {
         return tourLogMapper.mapToDto(tourLogRepository.findAll());
     }
@@ -58,6 +69,9 @@ public class TourLogServiceImpl implements TourLogService {
 
             TourLogEntity currentTourLog = optionalTourLogEntity.get();
             currentTourLog.setComment(tourLogDto.getComment());
+            currentTourLog.setLog_date(tourLogDto.getLog_date());
+            currentTourLog.setDifficulty(tourLogDto.getDifficulty());
+            currentTourLog.setRating(tourLogDto.getRating());
 
             tourLogRepository.save(currentTourLog);
 

@@ -26,7 +26,7 @@ import java.util.Objects;
 @Component
 public class MapApiImpl implements MapApi {
 
-    private static final String API_KEY = "5b3ce3597851110001cf62487526ba5559864cadbaabc18943f1d29c";
+    private static final String API_KEY = "yourkeyhere";
 
     private static final int ZOOM_LEVEL = 14;
 
